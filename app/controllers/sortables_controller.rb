@@ -1,5 +1,5 @@
 class SortablesController < ApplicationController
-  before_action :set_sortable, only: [:show, :edit, :update, :destroy]
+  before_action :set_sortable, only: [:show, :edit, :update, :destroy, :move]
 
   # GET /sortables
   # GET /sortables.json
@@ -59,6 +59,11 @@ class SortablesController < ApplicationController
       format.html { redirect_to sortables_url, notice: 'Sortable was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def move 
+    @sortable.insert_at(params[:position].to_i)
+    head :ok
   end
 
   private
