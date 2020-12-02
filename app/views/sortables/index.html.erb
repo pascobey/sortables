@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sortables</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sortables.each do |sortable| %>
+      <tr>
+        <td><%= sortable.position %></td>
+        <td><%= link_to 'Show', sortable %></td>
+        <td><%= link_to 'Edit', edit_sortable_path(sortable) %></td>
+        <td><%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sortable', new_sortable_path %>

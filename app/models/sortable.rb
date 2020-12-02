@@ -1,0 +1,2 @@
+class Sortable < ApplicationRecord
+end

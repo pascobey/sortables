@@ -1,0 +1,22 @@
+<%= form_with(model: sortable, local: true) do |form| %>
+  <% if sortable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sortable.errors.count, "error") %> prohibited this sortable from being saved:</h2>
+
+      <ul>
+        <% sortable.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :position %>
+    <%= form.number_field :position %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
