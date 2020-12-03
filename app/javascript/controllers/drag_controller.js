@@ -19,10 +19,10 @@ export default class extends Controller {
     })
   }
   end(event) {
-    console.log(event.to.getAttribute('name'))
+    console.log(event)
     let id = event.item.dataset.id
     let data = new FormData()
-    data.append('position', event.newIndex + 1)
+    data.append('position', event.newIndex)
     data.append('column', event.to.getAttribute('name'))
 
     Rails.ajax({

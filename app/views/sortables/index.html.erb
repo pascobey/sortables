@@ -21,22 +21,22 @@
           <div name="<%= c.name %>" class="col-<%= 12/@columns.size %> text-center" data-controller="drag" data-drag-url="/sortables/:id/move">
         <% end %>
         <h3 class="border-navy border-bottom text-mauve outline-text-light"><%= c.name %></h3>
-          <% @sortables.where(column: c.name).each do |sortable| %>
-            <div class="d-flex flex-row justify-content-around rounded border border-secondary mb-1" data-id="<%= sortable.id %>">
-              <%= sortable.id %>
-              <%= link_to 'Show', sortable %>
-              <%= link_to 'Edit', edit_sortable_path(sortable) %>
-              <%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
-            </div>
-          <% end %>
-          <%= form_with(model: @sortable, local: true) do |form| %>
-            <% next_item_position = @sortables.where(column: c.name).size + 1 %>
-            <%= form.hidden_field(:position, value: next_item_position, id: "#{c.name}-position-hidden") %>
-            <%= form.hidden_field(:column, value: c.name, id: "#{c.name}-column-hidden") %>
-            <div class="actions">
-              <%= form.submit("Add Item #{next_item_position}", id: "add-to-#{c.name}", class: 'btn btn-outline-green mt-2') %>
-            </div>
-          <% end %>
+        <% @sortables.where(column: c.name).order(position: :asc).each do |sortable| %>
+          <div data-id="<%= sortable.id %>" class="d-flex flex-row justify-content-around rounded border border-secondary mb-1">
+            <%= sortable.id %>
+            <%= link_to 'Show', sortable %>
+            <%= link_to 'Edit', edit_sortable_path(sortable) %>
+            <%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        <% end %>
+        <%= form_with(model: @sortable, local: true) do |form| %>
+          <% next_item_position = @sortables.where(column: c.name).size + 1 %>
+          <%= form.hidden_field(:position, value: next_item_position, id: "#{c.name}-position-hidden") %>
+          <%= form.hidden_field(:column, value: c.name, id: "#{c.name}-column-hidden") %>
+          <div class="actions">
+            <%= form.submit("Add Item #{next_item_position}", id: "add-to-#{c.name}", class: 'btn btn-outline-green mt-2') %>
+          </div>
+        <% end %>
         </div>
       <% end %>
     </div>

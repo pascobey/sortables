@@ -35,8 +35,9 @@ class SortablesController < ApplicationController
   end
 
   def move 
-    @sortable.update(column: params[:column])
+    # @sortable.update_attributes(sortable_params)
     @sortable.insert_at(params[:position].to_i)
+    # redirect_to('/')
     head :ok
   end
 
