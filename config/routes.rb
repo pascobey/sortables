@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :columns
+  root to: 'sortables#index'
+  resources :columns, only: [:create, :delete]
   resources :sortables do
     member do
       patch :move
