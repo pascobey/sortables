@@ -54,3 +54,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "acts_as_list", "~> 1.0"
+
+gem "stimulus_reflex", "~> 3.3"

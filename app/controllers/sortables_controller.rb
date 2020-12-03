@@ -1,24 +1,13 @@
 class SortablesController < ApplicationController
-  before_action :set_sortable, only: [:show, :edit, :update, :destroy, :move]
+  before_action :set_sortable, only: [:move]
 
   # GET /sortables
   # GET /sortables.json
   def index
-    @sortables = Sortable.all
-  end
-
-  # GET /sortables/1
-  # GET /sortables/1.json
-  def show
-  end
-
-  # GET /sortables/new
-  def new
     @sortable = Sortable.new
-  end
-
-  # GET /sortables/1/edit
-  def edit
+    @sortables = Sortable.all
+    @column = Column.new
+    @columns = Column.all
   end
 
   # POST /sortables
@@ -26,29 +15,13 @@ class SortablesController < ApplicationController
   def create
     @sortable = Sortable.new(sortable_params)
 
-    respond_to do |format|
-      if @sortable.save
-        format.html { redirect_to @sortable, notice: 'Sortable was successfully created.' }
-        format.json { render :show, status: :created, location: @sortable }
-      else
-        format.html { render :new }
-        format.json { render json: @sortable.errors, status: :unprocessable_entity }
-      end
+    # respond_to do |format|
+    if @sortable.save
+      redirect_to sortables_path, notice: "New #{@sortable.column} item created"
+    else
+      redirect_to sortables_path, notice: "#{@sortable.column} item failed to create"
     end
-  end
-
-  # PATCH/PUT /sortables/1
-  # PATCH/PUT /sortables/1.json
-  def update
-    respond_to do |format|
-      if @sortable.update(sortable_params)
-        format.html { redirect_to @sortable, notice: 'Sortable was successfully updated.' }
-        format.json { render :show, status: :ok, location: @sortable }
-      else
-        format.html { render :edit }
-        format.json { render json: @sortable.errors, status: :unprocessable_entity }
-      end
-    end
+    # end
   end
 
   # DELETE /sortables/1
@@ -62,6 +35,7 @@ class SortablesController < ApplicationController
   end
 
   def move 
+    @sortable.update(column: params[:column])
     @sortable.insert_at(params[:position].to_i)
     head :ok
   end
@@ -74,6 +48,6 @@ class SortablesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sortable_params
-      params.require(:sortable).permit(:position)
+      params.require(:sortable).permit(:position, :column)
     end
 end

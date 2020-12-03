@@ -13,4 +13,21 @@
  *= require_tree .
  *= require_self
  */
- @import "bootstrap/scss/bootstrap"
+$body-bg: #FFFCF9;
+$theme-colors: (
+    'light': #FFFCF9,
+    'primary': #EF476F,
+    'secondary': #FFD166,
+    'mauve': #EDC9FF,
+    'green': #06D6A0,
+    'navy': #26547C
+);
+@import "bootstrap/scss/bootstrap";
+
+.outline-text-light {
+  text-shadow:
+  -0.8px -0.8px 0 #26547C,  
+  0.8px -0.8px 0 #26547C,
+   -0.8px 0.8px 0 #26547C,
+   0.8px 0.8px 0 #26547C;
+}

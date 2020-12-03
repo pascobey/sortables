@@ -1,19 +1,48 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Sortables</h1>
-
-<div class="d-flex flex-row justify-content-between">
-  <div class="col-4 px-0 shadow" data-controller="drag" data-drag-url="/sortables/:id/move">
-    <% @sortables.each do |sortable| %>
-      <div class="d-flex flex-row justify-content-around border-bottom border-dark" data-id="<%= sortable.id %>">
-        <%= sortable.position %>
-        <%= link_to 'Show', sortable %>
-        <%= link_to 'Edit', edit_sortable_path(sortable) %>
-        <%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </div>
-    <% end %>
+<div class="container-lg text-light fixed-top" style="bottom: 0px;">
+  <div class="d-flex flex-row justify-content-between">
+    <div class="col-6">
+      <h1 class="display-1 text-navy" style="text-shadow: 3px 3px #EF476F;">Sortables</h1>
+    </div>
+    <div class=" col-6 d-flex flex-column justify-content-end mb-4">
+      <%= form_for @column, :method => :POST do |form| %>
+        <div class="d-flex flex-row justify-content-end">
+            <%= form.text_field(:name, value: 'Column Name', class: 'form-control w-50 mr-2') %>
+            <%= form.submit('Add Column', class: 'btn btn-secondary') %>
+        </div>
+      <% end %>
+    </div>
   </div>
+  <% if @columns.size != 0 %>
+    <div class="d-flex flex-row bg-dark rounded justify-content-between shadow py-2 mb-3 mx-0">
+      <% @columns.each do |c| %>
+        <% if @columns.last != c %>
+          <div name="<%= c.name %>" class="col-<%= 12/@columns.size %> text-center border-navy border-right" data-controller="drag" data-drag-url="/sortables/:id/move">
+        <% else %>
+          <div name="<%= c.name %>" class="col-<%= 12/@columns.size %> text-center" data-controller="drag" data-drag-url="/sortables/:id/move">
+        <% end %>
+        <h3 class="border-navy border-bottom text-mauve outline-text-light"><%= c.name %></h3>
+          <% @sortables.where(column: c.name).each do |sortable| %>
+            <div class="d-flex flex-row justify-content-around rounded border border-secondary mb-1" data-id="<%= sortable.id %>">
+              <%= sortable.id %>
+              <%= link_to 'Show', sortable %>
+              <%= link_to 'Edit', edit_sortable_path(sortable) %>
+              <%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </div>
+          <% end %>
+          <%= form_with(model: @sortable, local: true) do |form| %>
+            <% next_item_position = @sortables.where(column: c.name).size + 1 %>
+            <%= form.hidden_field(:position, value: next_item_position, id: "#{c.name}-position-hidden") %>
+            <%= form.hidden_field(:column, value: c.name, id: "#{c.name}-column-hidden") %>
+            <div class="actions">
+              <%= form.submit("Add Item #{next_item_position}", id: "add-to-#{c.name}", class: 'btn btn-outline-green mt-2') %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+
+
 </div>
 
-
-<%= link_to 'New Sortable', new_sortable_path %>
