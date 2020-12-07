@@ -24,9 +24,7 @@
         <% @sortables.where(column: c.name).order(position: :asc).each do |sortable| %>
           <div data-id="<%= sortable.id %>" class="d-flex flex-row justify-content-around rounded border border-secondary mb-1">
             <%= sortable.id %>
-            <%= link_to 'Show', sortable %>
-            <%= link_to 'Edit', edit_sortable_path(sortable) %>
-            <%= link_to 'Destroy', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Delete', sortable, method: :delete, data: { confirm: 'Are you sure?' } %>
           </div>
         <% end %>
         <%= form_with(model: @sortable, local: true) do |form| %>

@@ -1,5 +1,5 @@
 class SortablesController < ApplicationController
-  before_action :set_sortable, only: [:move]
+  before_action :set_sortable, only: [:move, :destroy]
 
   # GET /sortables
   # GET /sortables.json
@@ -35,9 +35,8 @@ class SortablesController < ApplicationController
   end
 
   def move 
-    # @sortable.update_attributes(sortable_params)
+    @sortable.update(column: params[:column])
     @sortable.insert_at(params[:position].to_i)
-    # redirect_to('/')
     head :ok
   end
 
